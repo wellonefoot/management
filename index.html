@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/><title>Wellone Management</title><link href="https://wnavzhrkwgnegjdetdno.supabase.co" rel="preconnect"/><link href="css/admin.css?v=107" rel="stylesheet"/><link href="assets/favicon/favicon.ico" rel="icon"/><link href="manifest.webmanifest" rel="manifest"/><link href="assets/favicon/apple-icon-180x180.png" rel="apple-touch-icon"/><meta content="#f5fff4" name="theme-color"/><link crossorigin="" href="https://cdn.jsdelivr.net" rel="preconnect"/></head>
+<body class="employee-page-body employee-manage-open management-page-body">
+<section class="employee-login-screen" id="managementLoginScreen"><form class="employee-login-card" id="managementLoginForm"><img alt="Wellone" src="assets/logo.png?v=107"/><p class="tag">product management</p><h1>Management Login</h1><p>Use a Management ID created by the admin.</p><label>Management ID<input autocomplete="username" id="managementLoginUsername" placeholder="Username" required=""/></label><label>Password<input autocomplete="current-password" id="managementLoginPassword" placeholder="Password" required="" type="password"/></label><button type="submit">Login</button><p class="login-error" id="managementLoginError"></p></form></section>
+<main class="employee-desk" hidden="" id="managementDesk"><header class="employee-topbar"><a class="employee-brand" href="index.html"><img alt="Wellone" src="assets/logo.png?v=107"/></a><div><small>Management account</small><b id="employeeSessionName">Management</b></div><button id="employeeLogoutBtn" type="button">Logout</button></header><section class="employee-mode-view employee-manage-shell active" id="employeeManageView">
+<div class="employee-manage-status status-card"><span id="employeeManageStatus">Manage products</span></div>
+<section class="view-panel clean-card" id="employeeManageProducts">
+<div class="panel-head">
+<div><p class="tag">products</p><h1>Product list</h1></div>
+<div class="panel-actions"><button class="submit-small" id="newProductBtn" type="button">+ Add product</button></div>
+</div>
+<div class="list-controls">
+<select id="productCategoryFilter"></select>
+<input id="searchProducts" placeholder="Search products, barcode, category, subcategory or price" type="search"/>
+<button id="reloadProductsBtn" type="button">Load</button>
+</div>
+<p class="unified-search-note">One search for everything — product name, barcode, category, option or price.</p>
+<div class="product-list" id="productList"></div>
+<button class="load-more hide" id="loadMoreProductsBtn" type="button">Load more products</button>
+</section>
+<section class="view-panel clean-card" id="employeeManageEditor">
+<div class="panel-head"><div><p class="tag">product editor</p><h1 id="formTitle">Add product</h1></div></div>
+<form class="product-form" id="productForm">
+<input id="editId" type="hidden"/>
+<div class="form-fields v97-product-form">
+<div class="field-row category-subcategory-row">
+<label>Category
+<div class="category-select-wrap">
+<select aria-label="Select product category" id="category" required=""><option value="">Select category</option></select>
+<span aria-hidden="true" class="category-select-arrow"></span>
+</div>
+</label>
+<label>Subcategory / filter
+<div class="subcategory-combobox" id="subcategoryCombobox">
+<input aria-autocomplete="list" aria-controls="subcategoryOptions" aria-expanded="false" autocomplete="off" disabled="" id="subcategory" placeholder="Select category first" role="combobox" type="text"/>
+<button aria-controls="subcategoryOptions" aria-expanded="false" aria-label="Show subcategories" class="subcategory-toggle" disabled="" id="subcategoryToggle" type="button"></button>
+<div class="subcategory-options" hidden="" id="subcategoryOptions" role="listbox"></div>
+</div>
+<small class="subcategory-hint" id="subcategoryHint">Select a category first.</small>
+</label>
+</div>
+<small class="hint hide" id="categoryHint"></small>
+<label>Product name<input id="productName" placeholder="Name" required=""/></label>
+<label>Search keywords <small class="optional">Hidden from customers</small><textarea id="searchKeywords" placeholder="v strap, strap, casual sandal, lightweight footwear" rows="2"></textarea><small class="hint">Separate words or phrases with commas. Customer search checks these keywords, but they are never shown on customer pages.</small></label>
+<section aria-labelledby="inventoryTitle" class="inventory-box">
+<div class="inventory-head"><div><b id="inventoryTitle">Inventory &amp; barcode</b><small>Keep identification, quantity and availability simple.</small></div></div>
+<div class="inventory-toggle-grid">
+<label class="switch-row"><span><b>Barcode identification</b><small>Link a unique barcode to this product.</small></span><input id="barcodeEnabled" type="checkbox"/></label>
+<label class="switch-row"><span><b>Track stock quantity</b><small>Track product or exact option quantities.</small></span><input id="trackInventory" type="checkbox"/></label>
+</div>
+<div class="inventory-fields">
+<label id="barcodeFieldWrap">Product barcode<input autocomplete="off" id="barcodeValue" inputmode="text" placeholder="Enter barcode"/><small class="hint">Enter the barcode manually. It must be unique when enabled.</small></label>
+<label id="productStockWrap">Available quantity<input id="productStockQuantity" inputmode="numeric" min="0" step="1" type="number" value="0"/><small class="hint" id="stockQuantityHint">Used when the product has no individual stock variants.</small></label>
+</div>
+<div class="inventory-summary" id="inventorySummary">Stock tracking is off.</div>
+</section>
+<label class="availability-main-row">Availability<select id="availability"><option value="in_stock">Available</option><option value="out_of_stock">Out of stock</option><option value="hidden">Hide product</option></select></label>
+<label>Description<textarea id="description" placeholder="Short product detail" rows="3"></textarea></label>
+<div class="term-picker"><b>Product policies</b><div class="check-grid" id="productTermChecks"></div></div>
+<div class="variant-box">
+<div class="variant-head"><div><b>Product type &amp; options</b><small id="variantModeHelp">Choose the simplest setup that matches this product.</small></div><button id="addVariantBtn" type="button">+ Add one option</button></div>
+<div class="variant-mode-grid product-type-picker"><label>Product type<select id="variantSetupMode"><option value="simple">Simple product</option><option value="option">One option — size, ml, litre, pack…</option><option value="color_option">Colour + option</option></select></label></div>
+<section class="product-image-step" id="productImageStep">
+<div class="product-image-step-head"><div><b id="productImageStepTitle">Product images</b><small id="productImageStepHelp">These images are used for the product and inherited by its options unless a separate image is enabled.</small></div></div>
+<div class="photo-picker compact-photo-picker" id="photoPicker"><span>＋</span><b>Add images</b><small>Tap to choose product images</small></div>
+<input accept="image/*" hidden="" id="photoInput" multiple="" type="file"/>
+<input accept="image/*" capture="environment" hidden="" id="photoCameraInput" type="file"/>
+<div class="preview-grid" id="previewGrid"></div>
+<button class="ghost-btn compact-clear-images" id="clearAllImagesBtn" type="button">Clear images</button>
+</section>
+<div class="field-row option-title-row" id="optionTitleRow"><label>Option title<input id="optionTitle" placeholder="Size / Quantity / ml / Litre / Pack"/></label><label class="legacy-product-field hide">Same-price options<input id="sizes" placeholder="7, 8, 9 or 250ml, 500ml"/></label><label class="legacy-product-field hide">Colours<input id="colors" placeholder="Black, White, Default"/></label></div>
+<div class="field-row three price-availability-row main-pricing-section" id="mainPricingSection">
+<label>MRP / crossed price<input id="mrp" inputmode="numeric" placeholder="1099"/></label>
+<label>Final price<input id="price" inputmode="numeric" placeholder="679"/></label>
+</div>
+<small class="variant-help">Simple product = one sellable item. One option = values like 500ml / 600ml / 1L. Colour + option = one image per colour, then customers choose the exact size/option. Separate rate, quantity and image controls appear only when needed.</small>
+<div class="variant-bulk-panel" id="variantBulkPanel">
+<div aria-label="Quick add product options" class="variant-bulk-add">
+<label id="variantBulkColorWrap">Colour / first option<input id="variantBulkColor" placeholder="Brown" type="text"/></label>
+<label><span id="variantBulkOptionLabel">Options for this colour</span><input id="variantBulkSizes" placeholder="7, 8, 9" type="text"/></label>
+<label id="variantBulkQtyWrap">Qty each <small class="optional">When all options use the same quantity</small><input id="variantBulkQty" inputmode="numeric" min="0" step="1" type="number" value="0"/></label>
+</div>
+<div class="variant-builder-switches">
+<label class="builder-colour-image hide" id="variantBulkImageWrap"><span><b id="variantBulkImageTitle">Option image</b><small id="variantBulkImageHelp">Optional. The selected image is attached immediately to the option value(s) you add now.</small></span><span class="stylish-file-control"><button class="stylish-upload-btn" id="variantBulkSharedImageBtn" type="button">Add option image</button><small id="variantBulkSharedImageName">No image selected</small><input accept="image/*" hidden="" id="variantBulkSharedImage" type="file"/></span></label>
+<label class="switch-row compact-switch"><span><b>Separate rates</b><small>Turn on to enter a separate MRP and final price for each value.</small></span><input id="variantBulkSeparatePrice" type="checkbox"/></label>
+<label class="switch-row compact-switch"><span><b>Separate quantities</b><small>Turn on to enter stock separately for every size/option.</small></span><input id="variantBulkSeparateQty" type="checkbox"/></label>
+</div>
+<div class="variant-rate-table hide" id="variantBulkRateTable"></div>
+<button class="variant-add-group-btn" id="addColourSizesBtn" type="button">Add option group</button>
+<small class="variant-combination-help bulk-help" id="variantBulkHelp">Enter values and add the group. Exact rows are created automatically.</small>
+</div>
+<div class="variant-group-controls" id="variantGroupControls"></div>
+<div class="variant-list" id="variantList"></div>
+</div>
+<div class="save-row"><button class="ghost-btn hide" id="cancelEditBtn" type="button">Cancel</button><button class="delete-btn" id="deleteBtn" style="display:none" type="button">Delete</button><button class="submit-btn" id="saveBtn" type="submit">Save Product</button></div>
+</div>
+</form>
+</section>
+</section></main>
+<div class="busy-overlay" id="employeeManageBusy"><div><b></b><span id="employeeManageBusyText">Working...</span></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/admin-config.js?v=107"></script><script src="js/management-auth.js?v=107"></script><script src="js/employee-manage.js?v=107"></script><script src="js/pwa-install.js?v=107"></script></body></html>

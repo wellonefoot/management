@@ -1,0 +1,5 @@
+WellOne v107 Management
+- Separate Management-only portal.
+- Management IDs are created by Admin with Account type = Management.
+- Includes the Admin-style product list/editor and variant image workflow.
+- Removed product/image storage paths are queued for secure physical cleanup by the Admin portal.
